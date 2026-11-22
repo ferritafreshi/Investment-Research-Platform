@@ -63,3 +63,8 @@
 - Updated README.md with full platform documentation, project structure, and scoring methodology
 - Created GitHub Release v1.0.0
 - All 12 weeks complete — MVP platform delivered
+## Week 12 fixes
+- data/watchlist.json: the GS entry carried Visa's name and reason (a copy-paste slip); name corrected to Goldman Sachs, reason left as "Reason not yet written" for the owner to write
+- README: the feature list named UNH, AVGO, TSM, CRM and SNOW, which are not on the watchlist; it now points to data/watchlist.json and lists the current 19 as of 2026-11-22
+- Dashboard chart dropdown: "All 19" replaced by "All", so it stays right when the watchlist changes
+- app/fetch_sec.py sent SEC the placeholder contact@example.com; SEC requires a real contact email and may block requests without one. The address now comes from the SEC_CONTACT_EMAIL environment variable (config/settings.py) and the script stops with an explanation when it is missing; no address is stored in the repository

@@ -4,7 +4,7 @@ A Python-based investment research platform that fetches live financial data, sc
 
 ## Features
 
-- **19 Growth Stock Universe** — MSFT, NVDA, COST, AAPL, GOOGL, AMZN, META, LLY, UNH, V, MA, AVGO, TSM, ASML, ADBE, CRM, NOW, PANW, SNOW
+- **Watchlist Universe** — the companies in `data/watchlist.json`, each with the reason it is followed (19 on 2026-11-22: MSFT, NVDA, COST, AAPL, GOOGL, META, AMZN, V, GS, INTU, ADBE, MA, LLY, ASML, NOW, PANW, CRWD, SPOT, TSLA)
 - **Scoring Engine** — Revenue Growth (CAGR) and Financial Strength (Interest Coverage) scored 0–100
 - **Interactive Dashboard** — Dark theme, score bars, ranked table, draggable summary cards
 - **SEC Filings** — Fetches latest 10-K filing for each company via SEC EDGAR (free)
@@ -31,7 +31,7 @@ ai-investment-research-platform/
 │ ├── export_dashboard_data.py # Aggregates all data into dashboard_data.json
 │ └── news_proxy.py # Flask proxy for Yahoo Finance RSS news
 ├── data/
-│ ├── watchlist.json # 19 company tickers
+│ ├── watchlist.json # The watchlist: ticker, name and the reason for each company
 │ ├── dashboard_data.json # Aggregated dashboard data
 │ ├── raw/ # Company snapshots (JSON)
 │ ├── scores/ # Individual score reports (JSON)
@@ -58,7 +58,12 @@ In bash, type:
 pip install yfinance flask flask-cors feedparser requests
 
 
-### 2. Fetch and score all companies
+### 2. Set your SEC contact email
+SEC requires a real contact email with every request to EDGAR. It is read from an environment variable,
+so it never ends up in the repository:
+export SEC_CONTACT_EMAIL=you@yourdomain.com     (macOS / Linux; on Windows: set SEC_CONTACT_EMAIL=...)
+
+### 2b. Fetch and score all companies
 In bash, type:
 python app/fetch_data.py
 python app/scoring.py

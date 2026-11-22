@@ -1,3 +1,5 @@
+import os
+
 # ============================================================
 # Project Configuration
 # ============================================================
@@ -38,3 +40,12 @@ EXCLUDED_INDUSTRIES = [
     "bank",
     "insurance"
 ]
+
+# ------------------------------------------------------------
+# SEC EDGAR
+# ------------------------------------------------------------
+
+# SEC requires every request to carry a real contact email in its User-Agent header
+# and may block requests without one. Set your own address in the environment
+# variable SEC_CONTACT_EMAIL; it is deliberately not stored in this public repository.
+SEC_CONTACT_EMAIL = os.environ.get("SEC_CONTACT_EMAIL", "").strip()
