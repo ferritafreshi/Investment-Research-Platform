@@ -1,11 +1,29 @@
 import requests
 import json
 import os
+import sys
 
-# SEC EDGAR headers (required by SEC)
-HEADERS = {
-    "User-Agent": "AI Investment Research Platform contact@example.com"
-}
+# Make the project root importable so "config" can be found when this file is run directly.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+
+from config.settings import SEC_CONTACT_EMAIL
+
+
+class SecContactMissing(RuntimeError):
+    """SEC requires a real contact email; none is configured."""
+
+
+def sec_headers():
+    """SEC EDGAR headers. SEC requires a real contact email in the User-Agent."""
+    email = SEC_CONTACT_EMAIL
+    if not email or "@" not in email or email.lower().endswith(("example.com", "example.org")):
+        raise SecContactMissing(
+            "SEC requires a real contact email with every request. Set it before running, for example:\n"
+            "    export SEC_CONTACT_EMAIL=you@yourdomain.com     (macOS / Linux)\n"
+            "    set SEC_CONTACT_EMAIL=you@yourdomain.com        (Windows)")
+    return {"User-Agent": f"AI Investment Research Platform {email}"}
 
 # Paths (run from project root)
 FILINGS_DIR = "data/filings"
@@ -17,7 +35,7 @@ def get_cik(ticker):
     
     # Use the company tickers JSON from SEC
     tickers_url = "https://www.sec.gov/files/company_tickers.json"
-    response = requests.get(tickers_url, headers=HEADERS)
+    response = requests.get(tickers_url, headers=sec_headers())
     data = response.json()
 
     for entry in data.values():
@@ -30,7 +48,7 @@ def get_cik(ticker):
 def get_latest_10k(cik):
     """Fetch the latest 10-K filing metadata for a given CIK."""
     url = f"https://data.sec.gov/submissions/CIK{cik}.json"
-    response = requests.get(url, headers=HEADERS)
+    response = requests.get(url, headers=sec_headers())
     data = response.json()
 
     filings = data.get("filings", {}).get("recent", {})
@@ -100,7 +118,11 @@ def fetch_sec_filing(ticker):
 
 
 if __name__ == "__main__":
-    import json
+    try:
+        sec_headers()
+    except SecContactMissing as error:
+        print(error)
+        sys.exit(1)
     with open("data/watchlist.json", "r") as f:
         data = json.load(f)
     

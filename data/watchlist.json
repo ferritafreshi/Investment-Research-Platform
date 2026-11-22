@@ -8,7 +8,7 @@
     { "ticker": "META", "name": "Meta Platforms", "reason": "Social network moat, AI-driven ad recovery" },
     { "ticker": "AMZN", "name": "Amazon", "reason": "AWS dominance, logistics moat" },
     { "ticker": "V", "name": "Visa", "reason": "Payment network effects, asset-light model" },
-    { "ticker": "GS", "name": "Visa", "reason": "Payment network effects, asset-light model" },
+    { "ticker": "GS", "name": "Goldman Sachs", "reason": "Reason not yet written" },
     { "ticker": "INTU", "name": "Intuit", "reason": "Tax and SMB software moat, recurring revenue" },
     { "ticker": "ADBE", "name": "Adobe", "reason": "Creative software monopoly, subscription model" },
     { "ticker": "MA", "name": "Mastercard", "reason": "Duopoly with Visa, global payment network" },
